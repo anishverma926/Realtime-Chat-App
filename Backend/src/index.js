@@ -39,8 +39,9 @@ app.use("/api/messages", messageRoutes);
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../Frontend/dist")));
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../Frontend", "dist", "index.html"));
+  // Express 5 catch-all that also matches "/"
+  app.get("/\\{*splat\\}", (req, res) => {
+    res.sendFile(path.join(distPath, "index.html"));
   });
 }
 
