@@ -43,7 +43,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(distPath));
 
   // Express 5 catch-all that also matches "/"
-  app.get("/\\{*splat\\}", (req, res) => {
+  app.get("*", (req, res) => {
     res.sendFile(path.join(distPath, "index.html"));
   });
 }
