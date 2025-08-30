@@ -3,8 +3,6 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-import { fileURLToPath } from "url";
-
 import path from "path";
 
 import { connectDB } from "./lib/db.js";
@@ -15,11 +13,7 @@ import { app, server } from "./lib/socket.js";
 
 dotenv.config();
 const PORT = process.env.PORT;
-
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
+const __dirname = path.resolve();
 
 // app.use(express.json());
 
@@ -49,10 +43,9 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(distPath));
 
   // Express 5 catch-all that also matches "/"
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(distPath, "index.html"));
+  app.get("/\\{*splat\\}", (req, res) => {
+    res.sendFile(path.join(distPath, "index.html"));
   });
-
 }
 
 
