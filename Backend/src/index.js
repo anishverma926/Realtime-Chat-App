@@ -20,7 +20,7 @@ const __dirname = path.resolve();
 // ✅ Enable CORS first
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
     credentials: true,
   })
 );
@@ -41,7 +41,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(distPath));
 
   // Catch-all: send React app for all other routes
-  app.get("*", (req, res) => {
+  app.get("/*", (req, res) => {
     res.sendFile(path.join(distPath, "index.html"));
   });
 }
