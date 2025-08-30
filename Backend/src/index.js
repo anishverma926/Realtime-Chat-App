@@ -37,14 +37,17 @@ app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
 if (process.env.NODE_ENV === "production") {
+  // IMPORTANT: Your folder is "Frontend", capital F (Linux is case-sensitive)
   const distPath = path.join(__dirname, "../Frontend/dist");
+
   app.use(express.static(distPath));
 
-  // Catch-all: send React app for all other routes
-  app.get("/*", (req, res) => {
+  // Express 5 catch-all that also matches "/"
+  app.get("/\\{*splat\\}", (req, res) => {
     res.sendFile(path.join(distPath, "index.html"));
   });
 }
+
 
 
 server.listen(PORT, () => {
